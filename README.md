@@ -1,14 +1,66 @@
-# EX-4-ADVANCED-ENCRYPTION-STANDARD-DES-ALGORITHM
+## AES Encryption and decryption  
 
-## Aim:
-  To use Advanced Encryption Standard (AES) Algorithm for a practical application like URL Encryption.
+## Aim:-  
+To implement a C program that takes the user's name as input and performs simple encryption 
+and decryption using a key-based XOR algorithm.  
 
-## ALGORITHM: 
-  1. AES is based on a design principle known as a substitution–permutation. 
-  2. AES does not use a Feistel network like DES, it uses variant of Rijndael. 
-  3. It has a fixed block size of 128 bits, and a key size of 128, 192, or 256 bits. 
-  4. AES operates on a 4 × 4 column-major order array of bytes, termed the state
+## Algorithm:  
+1. Start the program.  
+2. Declare arrays for input, key, encrypted data, and decrypted data.  
+3. Get user input (e.g., name) and store it in the input array.  
+4. Remove the newline character from the input if present.  
+5. Encrypt the input by XOR in each character with the key and store it.  
+6. Display the encrypted output in hexadecimal format.  
+7. Decrypt the encrypted data using XOR with the same key.  
+8. Display the decrypted output (original name).  
+9. End the program.  
 
-## PROGRAM: 
-## OUTPUT:
-## RESULT: 
+## Program code:  
+#include <stdio.h>  
+#include <stdint.h>  
+#include <string.h>  
+void encrypt(uint8_t *data, uint8_t *key, uint8_t *output, int len) {  
+for (int i = 0; i < len; i++) {  
+output[i] = data[i] ^ key[i % 16]; // key repeated  
+}  
+}  
+void decrypt(uint8_t *data, uint8_t *key, uint8_t *output, int len) {  
+for (int i = 0; i < len; i++) {  
+output[i] = data[i] ^ key[i % 16];  
+    }  
+}  
+  
+int main() {  
+    uint8_t key[16] = "simpleaeskey1234";  
+    uint8_t input[MAX_LEN], encrypted[MAX_LEN], decrypted[MAX_LEN];  
+  
+    printf("Enter your name: ");  
+    fgets((char*)input, MAX_LEN, stdin);  
+    int len = strlen((char*)input);  
+  
+    if (input[len - 1] == '\n') {  
+        input[len - 1] = '\0'; // remove newline  
+        len--;  
+    }  
+  
+    encrypt(input, key, encrypted, len);  
+  
+    printf("Encrypted: ");  
+    for (int i = 0; i < len; i++) {  
+        printf("%02x ", encrypted[i]);  
+    }  
+    printf("\n");  
+  
+    decrypt(encrypted, key, decrypted, len);  
+    decrypted[len] = '\0'; // Null-terminate string  
+  
+    printf("Decrypted: %s\n", decrypted);  
+  
+    return 0;  
+}   
+
+## Output:  
+![Screenshot 2025-04-21 153941](https://github.com/user-attachments/assets/7ab52258-3ffa-4ab7-a3d2-e48718443e66)
+
+## Result:   
+The program successfully encrypted and decrypted the user's name using the XOR algorithm.
